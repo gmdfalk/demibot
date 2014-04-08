@@ -1,0 +1,3 @@
+#!/usr/bin/env python2
+from demibot import main
+main.main()
