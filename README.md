@@ -19,7 +19,7 @@ What it currently does:
     * timer: pings you with a message after n seconds.
     * quiz: asks questions, gives hints and takes answers.
     
-Quite a bit of the code is adopted from [**Pyfibot**](https://github.com/lepinkainen/pyfibot), including the BMI-module.  
+The modularity feature is adopted from [**Pyfibot**](https://github.com/lepinkainen/pyfibot), including the BMI-module.  
   
 Features and modules I'd like to introduce:  
   * Quiz (with a database. smart autohinting, highscores, etc)
