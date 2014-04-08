@@ -22,7 +22,7 @@ import sys
 sys.path.insert(0, os.path.abspath('../..'))
 
 # Import project metadata
-from $package import metadata
+from demibot import metadata
 
 # -- General configuration ----------------------------------------------------
 

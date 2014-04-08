@@ -1,0 +1,5 @@
+Run `sphinx-apidoc -o . ../../demibot' in this directory.
+
+This will generate `modules.rst' and `demibot.rst'.
+
+Then include `modules.rst' in your `index.rst' file.

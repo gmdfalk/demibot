@@ -33,16 +33,16 @@ except ImportError:
 sys.path.append('.')
 
 ## Constants
-CODE_DIRECTORY = '$package'
+CODE_DIRECTORY = 'demibot'
 DOCS_DIRECTORY = 'docs'
 TESTS_DIRECTORY = 'tests'
 PYTEST_FLAGS = ['--doctest-modules']
 
 # Import metadata. Normally this would just be:
 #
-#     from $package import metadata
+#     from demibot import metadata
 #
-# However, when we do this, we also import `$package/__init__.py'. If this
+# However, when we do this, we also import `demibot/__init__.py'. If this
 # imports names from some other modules and these modules have third-party
 # dependencies that need installing (which happens after this file is run), the
 # script will crash. What we do instead is to load the metadata module by path
@@ -260,11 +260,11 @@ setup_dict = dict(
     zip_safe=False,  # don't use eggs
     entry_points={
         'console_scripts': [
-            '${package}_cli = ${package}.main:entry_point'
+            'demibot_cli = demibot.main:main'
         ],
         # if you have a gui, use this
         # 'gui_scripts': [
-        #     '${package}_gui = ${package}.gui:entry_point'
+        #     'demibot_gui = demibot.gui:entry_point'
         # ]
     }
 )

@@ -1,5 +1,5 @@
-$project
-$project_underline
+a multi-purpose IRC bot
+=======================
 
 Contents:
 

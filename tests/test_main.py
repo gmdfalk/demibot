@@ -6,8 +6,8 @@ from pytest import raises
 import pytest
 parametrize = pytest.mark.parametrize
 
-from $package import metadata
-from ${package}.main import main
+from demibot import metadata
+from demibot.main import main
 
 
 class TestMain(object):
