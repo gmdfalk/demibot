@@ -22,5 +22,9 @@ setup(
     author_email = "mikar@gmx.de",
     #~ install_requires = ['nose'],
     packages = ["demibot", "demibot/modules"],
-    scripts = ["scripts/demibot"]
+    entry_points = {
+                  'console_scripts': [
+                      'demibot = demibot.main:main',                  
+                  ],              
+              }
 )
