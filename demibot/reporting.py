@@ -12,7 +12,7 @@ class ChatLogger(object):
         self.logfiles = {}
         self.factory = factory
         self.server = self.factory.network_name
-        self.prefix = "logs/"  # Path goes here.
+        self.prefix = self.factory.logdir
         self.suffix = ".log"
 
     def log(self, msg, channel):
@@ -41,7 +41,7 @@ class ChatLogger(object):
                                               channel, self.server, self.suffix),
                                               "a")
             else:
-                log.debug("Tried to join a channel twice: {}".format(channel))
+                log.debug("Tried to open logs twice for: {}".format(channel))
         except IOError as e:
             err_str = "IOError: Disabling chatlogs. Missing write permissions?"
             log.error("{}".format(e))
@@ -74,8 +74,8 @@ class ChatLogger(object):
         self.logfiles = {}
 
 
-def init_syslog(logfile, loglevel, nologs, quiet):
-    "Initializes the logger for system messages"
+def init_syslog(logdir, loglevel, nologs, quiet):
+    "Initializes the logger for system messages."
     logger = logging.getLogger()
 
     # Set the loglevel.
@@ -86,20 +86,19 @@ def init_syslog(logfile, loglevel, nologs, quiet):
 
     formatter = logging.Formatter(logformat)
 
-    # If nologs is True, we do not log anything.
-    if nologs:
-        # This discards all logging messages of ERROR and below.
-        logging.disable(logging.ERROR)
-    else:
-        # By default, we log to both file and stdout, unless quiet is enabled.
-        if not quiet:
-            console_handler = logging.StreamHandler(sys.stdout)
-            console_handler.setFormatter(formatter)
-            logger.addHandler(console_handler)
-            log.debug("Added logging console handler.")
+    # This discards all logging messages of ERROR and below.
+#     logging.disable(logging.ERROR)
+    # By default, we log to both file and stdout, unless quiet is enabled.
+    if not quiet:
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setFormatter(formatter)
+        logger.addHandler(console_handler)
+        log.debug("Added logging console handler.")
 
+    # If nologs is True, we do not log to any file.
+    if nologs:
         try:
-            file_handler = logging.FileHandler(logfile)
+            file_handler = logging.FileHandler(logdir + "demibot.log")
             file_handler.setFormatter(formatter)
             logger.addHandler(file_handler)
             log.debug("Added logging file handler.")
