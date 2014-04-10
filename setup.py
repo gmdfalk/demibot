@@ -12,7 +12,7 @@ def read(filename):
 
 setup(
     name = "demibot",
-    description = "a multi-purpose IRC bot",
+    description = "A modular IRC bot",
     long_description = read("README.md"),
     keywords = "irc bot",
     version = "0.1",

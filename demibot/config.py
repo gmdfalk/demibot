@@ -39,10 +39,10 @@ def create_options(configdir):
 
     identities = {
         "example": {
-            "nickname": "demibot",
+            "nickname": "botnick",
             "realname": "botnick",
             "username": "botnick",
-            "nickserv_pw": auth.get("demibot")
+            "nickserv_pw": auth.get("botnick")
         },
     }
     networks = {
@@ -52,8 +52,8 @@ def create_options(configdir):
             "ssl": False,
             "password": auth.get("freenode"),
             "identity": identities["example"],
-            "superadmins": {"pld", "nick2"},
-            "admins":  {"nick3", "nick4"},
+            "superadmins": {"nick1", "nick2"},
+            "admins":  {},
             "channels": {"#channel1", "#channel2"},
         },
         "oftc": {
@@ -62,8 +62,8 @@ def create_options(configdir):
             "ssl": False,
             "password": auth.get("oftc"),
             "identity": identities["example"],
-            "superadmins": {"pld", "nick2"},
-            "admins":  {"nick3", "nick4"},
+            "superadmins": {"nick1", "nick2"},
+            "admins":  {},
             "channels": {"#channel1", "#channel2"},
         },
     }
