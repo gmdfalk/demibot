@@ -361,7 +361,7 @@ def command_help(bot, user, channel, cmnd):
 
 def command_logs(bot, user, channel, args):
     "Usage: logs [on|off|level]."
-    if bot.factory.minperms > permissions(user) < 20:
+    if permissions(user) < 20:
         return bot.say(channel, "{}, insufficient permissions.".format(
                        get_nick(user)))
 
