@@ -75,10 +75,10 @@
  which provides you with multi-server support and fine-grained configuration.  
  You can create a file called "auth" in either the installation directory or
  $HOME/.config/demibot or $HOME/.demibot from which nickserv and server passwords
- can be read.  
- By default, public commands and url title display are disabled. You can enable
- them with `.setmin 0` and `.urls on` or permanently in the Factory class by setting
- `self.titles_enabled = True` and `self.minperms = 0`.
+ can be read, if you don't write them in plaintext to config.py.
+ By default, public commands and url title display are enabled. You can disable
+ them with `.setmin 1` and `.urls off` or permanently in the Factory class by setting
+ `self.titles_enabled = False` and `self.minperms = 1`.
  
  
  For a simple test run, on-the-fly changes/setups or bot stacking, there is a command-line interface.  
