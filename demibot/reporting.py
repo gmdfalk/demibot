@@ -1,6 +1,7 @@
 import logging
 import sys
 import time
+import os
 
 
 log = logging.getLogger("report")
@@ -37,7 +38,7 @@ class ChatLogger(object):
 #       channel = channel.strip("#")  # I hate escape characters.
         try:
             if channel not in self.logfiles:
-                self.logfiles[channel] = open("{}{}-{}{}" .format(self.prefix,
+                self.logfiles[channel] = open("{}/{}-{}{}" .format(self.prefix,
                                               channel, self.server, self.suffix),
                                               "a")
             else:
@@ -59,7 +60,7 @@ class ChatLogger(object):
         for channel in channels:
             self.add_channel(channel)
         try:
-            self.logfiles["urls"] = open("{}urls-{}{}".format(self.prefix,
+            self.logfiles["urls"] = open("{}/urls-{}{}".format(self.prefix,
                                          self.server, self.suffix), "a")
         except IOError as e:
             err_str = "IOError: Disabling chatlogs. Missing write permissions?"
@@ -98,7 +99,8 @@ def init_syslog(logdir, loglevel, nologs, quiet):
     # If nologs is True, we do not log to any file.
     if nologs:
         try:
-            file_handler = logging.FileHandler(logdir + "demibot.log")
+            logfile = os.path.join(logdir, "demibot.log")
+            file_handler = logging.FileHandler(logfile)
             file_handler.setFormatter(formatter)
             logger.addHandler(file_handler)
             log.debug("Added logging file handler.")

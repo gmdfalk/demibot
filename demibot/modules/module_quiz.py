@@ -1,34 +1,61 @@
-from __future__ import unicode_literals, print_function, division
+import random
+import re
+import time
+
+from twisted.internet import reactor
 
 
-def calc_bmi(height, weight):
-    return (float(weight) / height ** 2) * 10000
-
-
-def print_bmi(bmi):
-    if bmi < 16.5:
-        weight_category = "severely underweight (less than 16.5)"
-    elif bmi < 18.5:
-        weight_category = "underweight (from 16.5 to 18.4)"
-    elif bmi < 25:
-        weight_category = "normal (from 18.5 to 24.9)"
-    elif bmi < 30.1:
-        weight_category = "overweight (from 25 to 30)"
-    elif bmi < 35:
-        weight_category = "obese class I (from 30.1 to 34.9)"
-    elif bmi <= 40:
-        weight_category = "obese class II (from 35 to 40)"
+def read_quizfile(quizfile):
+    "Reads the quiz file into a big dictionary."
+    try:
+        with open(quizfile) as f:
+            linelist = f.readlines()
+    except IOError:
+        quizdictlist = None
     else:
-        weight_category = "obese class III (over 40)"
+        questionlist = []
+        # Splits the line into category:question*answers match groups.
+        rgx = re.compile("(?:([^:]*):)?([^*]*)\*(.*)")
+        for line in linelist:
+            match = rgx.search(line)
+            question = match.group(1), match.group(2), match.group(3)
+            questionlist.append(question)
 
-    return "your BMI is {0:.2f} which is {1}.".format(bmi, weight_category)
-
+    return questionlist
 
 def command_quiz(bot, user, channel, args):
-    "Calculates your body mass index. Usage: bmi height(cm)/weight(kg)"
-    data = args.split("/")
-    if len(data) != 2:
-        return bot.say(channel, "Usage: bmi height(cm)/weight(kg)")
+    "A very basic quiz bot. No hints, no points. Usage: quiz [on|off|<delay>]."
+    # TODO:
+    delay = 25
+
+    if args == "on":
+        bot.factory.quiz_enabled = True
+        bot.say(channel, "Quiz is now enabled. Delay: {}.".format(delay))
+    elif args == "off":
+        bot.factory.quiz_enabled = False
+        return bot.say(channel, "Quiz is now disabled.")
+    elif args == "clue":
+        bot.say(channel, "There currently are no clues. Sorry.")
+    elif args == "help":
+        bot.say(channel, "Usage: quiz [on|off|<delay>].")
+    elif args.isdigit() and not args > 60:
+        delay = int(args)
+        bot.say(channel, "Delay changed to: {}.".format(delay))
     else:
-        bmi = print_bmi(calc_bmi(int(data[0]), int(data[1])))
-        return bot.say(channel, "{}, {}".format(get_nick(user), bmi))
+        bot.say(channel, "Quiz running: {}. Delay: {}"
+                .format(bot.factory.quiz_enabled, delay))
+
+    quizlist = None
+    if bot.factory.quiz_enabled:
+        quizlist = read_quizfile("modules/quiz_general.txt")
+
+    while bot.factory.quiz_enabled and quizlist:
+        category, question, answers = random.choice(quizlist)
+        question = question.strip().capitalize()  # Format the question poco.
+        if category:
+            bot.say(channel, "{}: {}?".format(category, question))
+        else:
+            bot.say(channel, "{}?".format(question))
+
+        reactor.callLater(delay, bot.say, channel, answers)
+        time.sleep(delay + 5)

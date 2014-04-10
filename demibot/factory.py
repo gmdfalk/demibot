@@ -7,6 +7,7 @@ import urllib2
 from twisted.internet import protocol, reactor
 
 from client import Client
+import requests
 
 
 # from lxml import html
@@ -20,17 +21,25 @@ class Factory(protocol.ClientFactory):
     VERSION = "0.1"  # current demibot version
     URL = "https://github.com/mikar/demibot"
     clients = {}
-    moduledir = os.path.dirname(os.path.realpath(__file__)) + "/modules/"
+    basedir = os.path.dirname(os.path.realpath(__file__))
+    moduledir = os.path.join(basedir, "modules/")
 
-    def __init__(self, network_name, network, logdir, nologs):
+    def __init__(self, network_name, network, configdir, logdir, nologs):
         self.network_name = network_name
         self.network = network
+        self.configdir = configdir
         self.logdir = logdir
         # Use XOR to set this to False if nologs is True. Could also use
         # not and or is not.
         self.logs_enabled = True ^ nologs
+        self.retry_enabled = True  # Retry if connection lost/failed.
         self.titles_enabled = False
-        self.retry_enabled = True
+        self.quiz_enabled = False
+        # Set minperms to disable access to commands for certain permission
+        # levels. Anything above 0 will disable most public commands.
+        self.minperms = 1  # 20 is the maximum.
+        if self.minperms:
+            log.info("Minperms are set! To enable public commands: .setmin 0")
         # Namespace for modules:
         self.ns = {}
         # Connection retry delays:
@@ -111,6 +120,8 @@ class Factory(protocol.ClientFactory):
         g = {}
 
         g["get_nick"] = self.get_nick
+        g["get_url"] = self.get_url
+        g["get_urlinfo"] = self.get_urlinfo
         g["get_title"] = self.get_title
         g["permissions"] = self.permissions
         g["to_utf8"] = self.to_utf8
@@ -183,3 +194,37 @@ class Factory(protocol.ClientFactory):
 
         if title:
             return "Title: {}".format(title.strip())
+
+    def get_urlinfo(self, url, nocache=False, params=None, headers=None):
+        "Gets data, bs and headers for the given URL."
+
+        # Make this configurable in the config
+        browser = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11"\
+                  "(KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11"
+
+        # Common session for all requests.
+        s = requests.session()
+        s.verify = False
+        s.stream = True  # Don't fetch content unless asked.
+        s.headers.update({'User-Agent':browser})
+        # Custom headers from requester
+        if headers:
+            s.headers.update(headers)
+
+        try:
+            r = s.get(url, params=params)
+        except requests.exceptions.InvalidSchema:
+            log.error("Invalid schema in URI: {}".format(url))
+            return None
+        except requests.exceptions.ConnectionError:
+            log.error("Connection error when connecting to {}".format(url))
+            return None
+
+        size = int(r.headers.get('Content-Length', 0)) // 1024
+        # log.debug("Content-Length: %dkB" % size)
+        if size > 2048:
+            log.warn("Content too large, will not fetch: {}kB {}".format(size,
+                                                                         url))
+            return None
+
+        return r
