@@ -23,7 +23,7 @@ def get_cx(site, configdir):
     return cx_id
 
 
-def get_searchresult(site, bot, channel, args):
+def get_searchresult(site, bot, channel, args, nick):
     "The flesh of this module. Parse the search result and return title & link"
     cx = get_cx(site, bot.factory.configdir)
 
@@ -39,16 +39,15 @@ def get_searchresult(site, bot, channel, args):
     results = parsed["searchInformation"]["totalResults"]
 
     if results == "0":
-        return None, None
+        return
 
     first_url = parsed["items"][0]["link"]
     title = parsed["items"][0]["title"]
 
     if title or first_url:
-        return bot.say(channel, "{}, {} - <{}>.".format(get_nick(user),
-                                                        title, first_url))
-    return bot.say(channel, "{}: nothing found for {}".format(get_nick_user(),
-                                                              args))
+        return bot.say(channel, "{}, {} - <{}>.".format(nick, title, first_url))
+    return bot.say(channel, "{}: nothing found for {}".format(nick, args))
+
 
 def command_g(bot, user, channel, args):
     "Searches Google and returns the first result. Usage: g <searchterm>"
@@ -56,7 +55,7 @@ def command_g(bot, user, channel, args):
     if not args:
         return bot.say(channel, "Usage: g <searchterm>.")
 
-    get_searchresult("gcx", bot, channel, args)
+    get_searchresult("gcx", bot, channel, args, get_nick(user))
 
 
 def command_yt(bot, user, channel, args):
