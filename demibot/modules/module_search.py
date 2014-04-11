@@ -47,8 +47,8 @@ def command_g(bot, user, channel, args):
     first_url = parsed["items"][0]["link"]
     title = parsed["items"][0]["title"]
 
-    bot.say(channel, "{}, {} - Google: <{}>.".format(get_nick(user),
-                                                     title, first_url))
+    bot.say(channel, "{}, {} - <{}>.".format(get_nick(user),
+                                             title, first_url))
 
 def command_yt(bot, user, channel, args):
     "Searches Youtube and returns the first result. Usage: yt <searchterm>"
@@ -75,8 +75,8 @@ def command_yt(bot, user, channel, args):
     first_url = parsed["items"][0]["link"]
     title = parsed["items"][0]["title"]
 
-    bot.say(channel, "{}, {} - YouTube: <{}>.".format(get_nick(user),
-                                                      title, first_url))
+    bot.say(channel, "{}, {} - <{}>.".format(get_nick(user),
+                                             title, first_url))
 
 def command_wiki(bot, user, channel, args):
     "Searches Wikipedia and returns the first result. Usage: wiki <searchterm>"
@@ -103,5 +103,5 @@ def command_wiki(bot, user, channel, args):
     first_url = parsed["items"][0]["link"]
     title = parsed["items"][0]["title"]
 
-    bot.say(channel, "{}, {} - Wikipedia: <{}>.".format(get_nick(user),
-                                                        title, first_url))
+    bot.say(channel, "{}, {} - <{}>.".format(get_nick(user),
+                                             title, first_url))
