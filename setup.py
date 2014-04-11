@@ -1,17 +1,22 @@
 #!/usr/bin/env python2
 
 import os
+
+
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
 
+
 def read(filename):
     with open(os.path.join(os.path.dirname(__file__), filename)) as f:
         return f.read()
 
+
 _name = "demibot"
 _license = "MIT"
+
 
 setup(
     name=_name,
