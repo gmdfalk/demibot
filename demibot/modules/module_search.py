@@ -1,5 +1,12 @@
 """Google Search using Custom Search Engine API
 
+    This works by creating an account with Googles Custom Search Engine Service
+    and adding a site you want to search. You then get a cx ID assigned to that
+    search and can use it here.
+    Example from my "auth"-file:
+    wikicx 010309599473701667874:gmnbobftkp0
+
+
     From https://github.com/EArmour
 """
 import re
@@ -64,7 +71,7 @@ def command_yt(bot, user, channel, args):
     if not args:
         return bot.say(channel, "Usage: yt <searchterm>.")
 
-    get_searchresult("ytcx", bot, channel, args)
+    get_searchresult("ytcx", bot, channel, args, get_nick(user))
 
 
 def command_wiki(bot, user, channel, args):
@@ -73,5 +80,5 @@ def command_wiki(bot, user, channel, args):
     if not args:
         return bot.say(channel, "Usage: wiki <searchterm>.")
 
-    get_searchresult("wikicx", bot, channel, args)
+    get_searchresult("wikicx", bot, channel, args, get_nick(user))
 
