@@ -10,23 +10,24 @@ def read(filename):
     with open(os.path.join(os.path.dirname(__file__), filename)) as f:
         return f.read()
 
+_name = "demibot"
+_license = "MIT"
+
 setup(
-    name="demibot",
+    name=_name,
     description="A modular IRC bot",
     long_description=read("README.md"),
-    keywords="irc bot",
-    version="0.1",
-    license="MIT",
-    url="https://github.com/mikar/demibot",
+    version="0.2",
+    license=_license,
+    url="https://github.com/mikar/%s" % _name,
     author="Max Demian",
     author_email="mikar@gmx.de",
-    # ~ install_requires = ['nose'],
-    packages=["demibot", "demibot/modules"],
-    package_data={"demibot/modules": ['*.txt']},
+    packages=[_name, _name + "/modules"],
+    package_data={_name + "/modules": ["*.txt"]},
     install_package_data=True,
     entry_points={
-                  'console_scripts': [
-                      'demibot = demibot.main:main',
+                  "console_scripts": [
+                      "{0} = {0}.main:main".format(_name),
                   ],
               }
 )
