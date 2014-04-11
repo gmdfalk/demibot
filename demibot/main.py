@@ -40,7 +40,7 @@ from reporting import init_syslog
 
 
 def main():
-    args = docopt(__doc__, version="0.1")
+    args = docopt(__doc__, version="0.2")
 
     # If ~/.demibot or ~/.config/demibot exist, we use that as location for
     # the logs and auth file.

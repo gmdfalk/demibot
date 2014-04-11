@@ -25,7 +25,7 @@ except ImportError as e:
 class Factory(protocol.ClientFactory):
     "Factory that creates a client and handles its connection."
 
-    VERSION = "0.1"  # current demibot version
+    VERSION = "0.2"  # current demibot version
     URL = "https://github.com/mikar/demibot"
     clients = {}
     basedir = os.path.dirname(os.path.realpath(__file__))
