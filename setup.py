@@ -11,20 +11,22 @@ def read(filename):
         return f.read()
 
 setup(
-    name = "demibot",
-    description = "A modular IRC bot",
-    long_description = read("README.md"),
-    keywords = "irc bot",
-    version = "0.1",
-    license = "MIT",
-    url = "https://github.com/mikar/demibot",
-    author = "Max Demian",
-    author_email = "mikar@gmx.de",
-    #~ install_requires = ['nose'],
-    packages = ["demibot", "demibot/modules"],
-    entry_points = {
+    name="demibot",
+    description="A modular IRC bot",
+    long_description=read("README.md"),
+    keywords="irc bot",
+    version="0.1",
+    license="MIT",
+    url="https://github.com/mikar/demibot",
+    author="Max Demian",
+    author_email="mikar@gmx.de",
+    # ~ install_requires = ['nose'],
+    packages=["demibot", "demibot/modules"],
+    package_data={"demibot/modules": ['*.txt']},
+    install_package_data=True,
+    entry_points={
                   'console_scripts': [
-                      'demibot = demibot.main:main',                  
-                  ],              
+                      'demibot = demibot.main:main',
+                  ],
               }
 )
