@@ -307,6 +307,7 @@ def command_leave(bot, user, channel, args):
 
     # No arguments, so we leave the current channel.
     if not args:
+        bot.factory.network["channels"].discard(channel)
         bot.part(channel)
         return
 
@@ -318,14 +319,14 @@ def command_leave(bot, user, channel, args):
         if c in network["channels"]:
             if c != channel:
                 bot.say(channel, "Leaving {}".format(c))
+            bot.factory.network["channels"].discard(c)
             bot.part(c)
         else:
             bot.say(channel, "I am not in {}".format(c))
             log.debug("Attempted to leave a channel i'm not in: {}"
                       .format(c))
 
-        log.debug("Channels I'm in: {}"
-                  .format(", ".join(network["channels"])))
+    log.debug("Channels I'm in: {}".format(", ".join(network["channels"])))
 
 
 def command_channels(bot, user, channel, args):

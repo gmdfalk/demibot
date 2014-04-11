@@ -7,12 +7,19 @@ import urllib2
 from twisted.internet import protocol, reactor
 
 from client import Client
-import requests
+
+
+log = logging.getLogger("factory")
+
+
+try:
+    import requests
+except ImportError as e:
+    log.error("Missing requests library. The translate module won't work.")
 
 
 # from lxml import html
 # from BeautifulSoup import BeautifulSoup as bs
-log = logging.getLogger("factory")
 
 
 class Factory(protocol.ClientFactory):
@@ -33,11 +40,11 @@ class Factory(protocol.ClientFactory):
         # not and or is not.
         self.logs_enabled = True ^ nologs
         self.retry_enabled = True  # Retry if connection lost/failed.
-        self.titles_enabled = True
+        self.titles_enabled = False
         self.quiz_enabled = False
         # Set minperms to disable access to commands for certain permission
         # levels. Anything above 0 will disable most public commands.
-        self.minperms = 0  # 20 is the maximum.
+        self.minperms = 1  # 20 is the maximum.
         if self.minperms:
             log.info("Minperms are set! To enable public commands: .setmin 0")
         # Namespace for modules:
@@ -173,12 +180,6 @@ class Factory(protocol.ClientFactory):
 
     def get_title(self, url):
         "Gets the HTML title of a website."
-        # FIXME: Bug urls:
-        # http://www.meetup.com/Stockholm-SDN-Group/events/161810182/
-        # https://www.google.com/search?q=python%20get%20html%20text#q=python+get+html+source
-        # https://www.virustotal.com/en/file/1abdb2b38b57ce17a8965cd9bf5e62ef106cf9c0dc720d3e7a12b79b38b6b82c/analysis/
-        # http://www.networkworld.com/news/2014/040314-linux-280404.html?hpg1=bn
-        # https://images.indiegogo.com/file_attachments/416948/files/20140307002348-40202181.jpg?1394180628
 #         # Three ways to do this. Speed: regex > lxml > beautifulsoup
 #         return html.parse(url).find(".//title").text
 #         return bs(urllib2.urlopen(url)).title.string
@@ -194,6 +195,7 @@ class Factory(protocol.ClientFactory):
 
         if title:
             return "Title: {}".format(title.strip())
+
 
     def get_urlinfo(self, url, nocache=False, params=None, headers=None):
         "Gets data, bs and headers for the given URL."

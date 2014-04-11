@@ -25,9 +25,6 @@ def command_g(bot, user, channel, args):
     "Searches Google and returns the first result. Usage: g <searchterm>"
 
     cx = get_cx(bot.factory.configdir)
-    print
-    print cx
-    print
     if not cx:
         return
 

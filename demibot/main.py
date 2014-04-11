@@ -67,7 +67,7 @@ def main():
         if e.errno == 13:  # Permission denied
             # No write permissions. Turn off all file logging.
             args["--no-logs"] = True
-            print "Disabling file logging (no write permissions): OSError", e
+            print "ERROR: No write permissions ({})".format(e)
 
     # If there is no server argument, read the connection infos from config.py.
     if not args["<server>"]:
@@ -96,7 +96,7 @@ def main():
             channels = {i if i.startswith("#") else "#" + i\
                         for i in args["<channels>"].split(",")}
         except AttributeError:
-            print "Could not resolve channel arguments."
+            print "ERROR: Could not resolve channel arguments."
             print "Syntax: demibot irc.freenode.net chan1,chan2,#chan3"
             sys.exit(1)
         networks = {

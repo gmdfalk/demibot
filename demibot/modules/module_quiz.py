@@ -1,9 +1,10 @@
+import os
 import random
 import re
 import time
 
 from twisted.internet import reactor
-
+# TODO: Create a Quiz class and enable privmsg interaction.
 
 def read_quizfile(quizfile):
     "Reads the quiz file into a big dictionary."
@@ -11,7 +12,7 @@ def read_quizfile(quizfile):
         with open(quizfile) as f:
             linelist = f.readlines()
     except IOError:
-        quizdictlist = None
+        questionlist = None
     else:
         questionlist = []
         # Splits the line into category:question*answers match groups.
@@ -23,19 +24,35 @@ def read_quizfile(quizfile):
 
     return questionlist
 
+
+def update_hint(factory):
+    "Create a hint for an answer."
+    hint = list(factory.hint)
+    answer = factory.answer
+    count = 0
+    while count < 3:
+        index = random.randrange(len(answer))
+        if hint[index] == "_":
+            hint[index] = answer[index]
+            count += 1
+
+    factory.hint = "".join(hint)
+
+
 def command_quiz(bot, user, channel, args):
     "A very basic quiz bot. No hints, no points. Usage: quiz [on|off|<delay>]."
     # TODO:
     delay = 25
 
-    if args == "on":
+    if args == "hint" or args == "clue":
+        update_hint(bot.factory)
+        return bot.say(channel, bot.factory.hint)
+    elif args == "on":
         bot.factory.quiz_enabled = True
         bot.say(channel, "Quiz is now enabled. Delay: {}.".format(delay))
     elif args == "off":
         bot.factory.quiz_enabled = False
         return bot.say(channel, "Quiz is now disabled.")
-    elif args == "clue":
-        bot.say(channel, "There currently are no clues. Sorry.")
     elif args == "help":
         bot.say(channel, "Usage: quiz [on|off|<delay>].")
     elif args.isdigit() and not args > 60:
@@ -47,11 +64,15 @@ def command_quiz(bot, user, channel, args):
 
     quizlist = None
     if bot.factory.quiz_enabled:
-        quizlist = read_quizfile("modules/quiz_general.txt")
+        quizfile = os.path.join(bot.factory.moduledir, "quiz_general.txt")
+        quizlist = read_quizfile(quizfile)
 
     while bot.factory.quiz_enabled and quizlist:
         category, question, answers = random.choice(quizlist)
         question = question.strip().capitalize()  # Format the question poco.
+        bot.factory.answer = answers.split("*")[0]
+        bot.factory.hint = "".join(["_" if i != " " else " " for i in\
+                                    bot.factory.answer])
         if category:
             bot.say(channel, "{}: {}?".format(category, question))
         else:

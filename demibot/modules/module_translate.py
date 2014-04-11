@@ -3,8 +3,15 @@
 
     From https://github.com/EArmour/pyfibot/
 """
+import logging
 
-import requests
+
+log = logging.getLogger("trans")
+
+try:
+    import requests
+except ImportError:
+    log.error("Missing requests library. The translate module won't work.")
 
 
 gturl = "http://translate.google.com/translate_a/t"
@@ -14,6 +21,7 @@ gtheaders = {
              }
 gtbody = "client=gtranslate&sl=&tl=en&text=%s"
 
+
 def command_translate(bot, user, channel, args):
     """Transliterates text with Google Translate to English.
     Usage: translate <text>."""
@@ -21,6 +29,7 @@ def command_translate(bot, user, channel, args):
     json = gtrans.json()
     translated = json["sentences"][0]["trans"]
     bot.say(channel, "From " + json["src"] + ": " + translated)
+
 
 def command_transliterate(bot, user, channel, args):
     """Transliterates text with Google Translate to English.

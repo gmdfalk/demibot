@@ -16,6 +16,7 @@
 """
 import os
 
+
 def read_authfile(configdir):
     "Reads authentication info from a file"
     auth = {}

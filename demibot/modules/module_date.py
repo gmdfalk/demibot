@@ -1,5 +1,14 @@
 import datetime
-from dateutil.tz import tzlocal
+import logging
+
+
+log = logging.getLogger("date")
+
+
+try:
+    from dateutil.tz import tzlocal
+except ImportError:
+    log.error("Missing dateutil library. The date module won't work.")
 
 
 def command_date(bot, user, channel, args):
