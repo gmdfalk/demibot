@@ -47,7 +47,7 @@ def command_g(bot, user, channel, args):
     first_url = parsed["items"][0]["link"]
     title = parsed["items"][0]["title"]
 
-    bot.say(channel, "Google: {} - {}".format(title, first_url))
+    bot.say(channel, "Google: {} - {}".format(first_url, title))
 
 
 def command_yt(bot, user, channel, args):
@@ -75,7 +75,7 @@ def command_yt(bot, user, channel, args):
     first_url = parsed["items"][0]["link"]
     title = parsed["items"][0]["title"]
 
-    bot.say(channel, "YouTube: {} - {}".format(title, first_url))
+    bot.say(channel, "YouTube: {} - {}".format(first_url, title))
 
 
 def command_wiki(bot, user, channel, args):
@@ -103,4 +103,4 @@ def command_wiki(bot, user, channel, args):
     first_url = parsed["items"][0]["link"]
     title = parsed["items"][0]["title"]
 
-    bot.say(channel, "Wikipedia: {} - {}".format(title, first_url))
+    bot.say(channel, "Wiki: {} - {}".format(first_url, title))
