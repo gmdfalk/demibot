@@ -88,7 +88,9 @@ def init_syslog(logdir, loglevel, nologs, quiet):
     formatter = logging.Formatter(logformat)
 
     # This discards all logging messages of ERROR and below.
-#     logging.disable(logging.ERROR)
+#     if quiet:
+#         logging.disable(logging.ERROR)
+
     # By default, we log to both file and stdout, unless quiet is enabled.
     if not quiet:
         console_handler = logging.StreamHandler(sys.stdout)
@@ -97,7 +99,7 @@ def init_syslog(logdir, loglevel, nologs, quiet):
         log.debug("Added logging console handler.")
 
     # If nologs is True, we do not log to any file.
-    if nologs:
+    if not nologs:
         try:
             logfile = os.path.join(logdir, "demibot.log")
             file_handler = logging.FileHandler(logfile)
