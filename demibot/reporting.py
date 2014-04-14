@@ -75,7 +75,7 @@ class ChatLogger(object):
         self.logfiles = {}
 
 
-def init_syslog(logdir, loglevel, nologs, quiet):
+def init_logger(logdir, loglevel, nologs, quiet):
     "Initializes the logger for system messages."
     logger = logging.getLogger()
 

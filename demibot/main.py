@@ -36,7 +36,7 @@ from twisted.internet import reactor, ssl
 
 import config
 from factory import Factory
-from reporting import init_syslog
+from reporting import init_logger
 
 
 def main():
@@ -114,7 +114,7 @@ def main():
 
     # Set up our logger for system events. Chat is logged separately.
     # Both will be disabled if --no-logs is True.
-    init_syslog(args["--logdir"], args["-v"], args["--no-logs"], args["--quiet"])
+    init_logger(args["--logdir"], args["-v"], args["--no-logs"], args["--quiet"])
     # Set up the connection info for each network.
     for name in networks.keys():
 
