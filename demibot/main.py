@@ -4,6 +4,8 @@
 # Modules: Seen+Tell, RSS+Github, IMDB/TVcal, Twitter, madcow
 # Replace logging with syslog
 # Add support for channelpasswords
+# Maybe use environment variable to get config dir. That way, we can put
+# config.py there, too.
 """demibot - A multipurpose IRC bot (depends on twisted and requests)
 
 Usage:
