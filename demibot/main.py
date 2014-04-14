@@ -112,10 +112,6 @@ def main():
             }
         }
 
-    # Cap verbosity count at 3 to avoid index errors.
-    if args["-v"] > 3:
-        args["-v"] = 3
-
     # Set up our logger for system events. Chat is logged separately.
     # Both will be disabled if --no-logs is True.
     init_syslog(args["--logdir"], args["-v"], args["--no-logs"], args["--quiet"])

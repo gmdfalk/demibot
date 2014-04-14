@@ -80,8 +80,11 @@ def init_syslog(logdir, loglevel, nologs, quiet):
     logger = logging.getLogger()
 
     # Set the loglevel.
+    if loglevel > 3:  # Cap at 3, incase someone likes their v-key too much.
+        loglevel = 3
     levels = [logging.ERROR, logging.WARN, logging.INFO, logging.DEBUG]
     logger.setLevel(levels[loglevel])
+    log.info("Loglevel is {}.".format(levels[loglevel]))
 
     logformat = "%(asctime)-14s %(levelname)-8s %(name)-8s %(message)s"
 
