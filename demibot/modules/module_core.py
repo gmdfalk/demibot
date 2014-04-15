@@ -377,7 +377,6 @@ def command_logs(bot, user, channel, args):
         log.info("Chatlogs disabled")
         return bot.say(channel, "Chatlogs are now enabled.")
     elif args == "level":
-        # FIXME: Somehow, this shows WARN even though -vvv is enabled.
         level = logging.getLogger().getEffectiveLevel()
         levels = ["notset", "debug [-vvv]", "info [-vv]",
                   "warn [-v]", "error, least verbose"]

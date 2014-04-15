@@ -6,6 +6,8 @@
 # Add support for channelpasswords
 # Maybe use environment variable to get config dir. That way, we can put
 # config.py there, too.
+# Or use ConfigParser with some tweaks and build the dictionary myself like:
+# {sec:dict(cfg.items(sec)) for sec in cfg.sections()}
 """demibot - A multipurpose IRC bot (depends on twisted and requests)
 
 Usage:
