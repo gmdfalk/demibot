@@ -8,6 +8,7 @@
 # config.py there, too.
 # Or use ConfigParser with some tweaks and build the dictionary myself like:
 # {sec:dict(cfg.items(sec)) for sec in cfg.sections()}
+# Or use JSON.
 """demibot - A multipurpose IRC bot (depends on twisted and requests)
 
 Usage:
