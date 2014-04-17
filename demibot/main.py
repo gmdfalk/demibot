@@ -1,14 +1,16 @@
 #!/usr/bin/env python2
 # TODO:
 # Database (User info, channel stats, quiz, permission levels, alternate nicks)
-# Modules: Seen+Tell, RSS+Github, IMDB/TVcal, Twitter, madcow
+# Modules: Seen+Tell, RSS+Github, IMDB/TVcal, Twitter, madcow, uptime
 # Replace logging with syslog
 # Add support for channelpasswords
-# Maybe use environment variable to get config dir. That way, we can put
-# config.py there, too.
-# Or use ConfigParser with some tweaks and build the dictionary myself like:
-# {sec:dict(cfg.items(sec)) for sec in cfg.sections()}
-# Or use JSON.
+# Improve config file concept:
+#     Maybe use environment variable to get config dir. That way, we can put
+#     config.py there, too.
+#     Or use ConfigParser with some tweaks and build the dictionary myself like
+#     {sec:dict(cfg.items(sec)) for sec in cfg.sections()}.
+#     Or use JSON.
+# FIXME: admins command (freenode), syslog to .demibot
 """demibot - A multipurpose IRC bot (depends on twisted and requests)
 
 Usage:
