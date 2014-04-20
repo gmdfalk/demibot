@@ -41,7 +41,7 @@ def command_admins(bot, user, channel, args):
                        get_nick(user)))
 
     superadmins = bot.factory.network["superadmins"]
-    admins = superadmins ^ bot.factory.network["admins"]
+    admins = set(superadmins) ^ set(bot.factory.network["admins"])
 
     str_sadmins = " ".join(superadmins)
     str_admins = " ".join(admins) if admins else 0
