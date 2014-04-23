@@ -15,7 +15,7 @@ import os
 
 def get_searchresult(site, bot, channel, args, nick):
     "The flesh of this module. Parse the search result and return title & link"
-    cx = bot.factory.network[site]
+    cx = bot.factory.network.get(site)
 
     if not cx:
         return bot.say(channel, "Could not find a CX ID.")

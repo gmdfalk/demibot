@@ -72,6 +72,9 @@ def parse_config(configdir):
         networks[n]["ssl"] = config.getboolean(n, "ssl")
         networks[n]["urltitles_enabled"] = config.getboolean(n, "urltitles_enabled")
         networks[n]["minperms"] = config.getint(n, "minperms")
+        networks[n]["lost_delay"] = config.getint(n, "lost_delay")
+        networks[n]["failed_delay"] = config.getint(n, "failed_delay")
+        networks[n]["rejoin_delay"] = config.getint(n, "rejoin_delay")
         for k, v in networks[n].items():
             if k == "superadmins":
                 networks[n]["superadmins"] = set(v.replace(" ", "").split(","))
