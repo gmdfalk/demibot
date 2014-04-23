@@ -18,8 +18,6 @@ class Client(irc.IRCClient):
     def __init__(self, factory):
         self.factory = factory
         self.nickname = self.factory.network["nickname"]
-        self.realname = self.factory.network["realname"]
-        self.username = self.factory.network["username"]
         self.sourceURL = self.factory.URL  # CTCP source queries to the github.
         self.lineRate = 1  # Print at most n lines per second.
         self.wrap = textwrap.TextWrapper(width=400, break_long_words=True)
@@ -172,7 +170,7 @@ class Client(irc.IRCClient):
             url = self.factory.get_url(msg)
             if url:
                 log.debug("URL detected: {}".format(url))
-                if self.factory.titles_enabled:
+                if self.factory.urltitles_enabled:
                     self.say(channel, self.factory.get_title(url))
                 if self.factory.logs_enabled:
                     self.chatlogger.log_url("<{}> {}".format(

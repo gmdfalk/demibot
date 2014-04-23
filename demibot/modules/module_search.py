@@ -3,8 +3,8 @@
     This works by creating an account with Googles Custom Search Engine Service
     and adding a site you want to search. You then get a cx ID assigned to that
     search and can use it here.
-    Example from my "auth"-file:
-    wikicx 010309599473701667874:gmnbobftkp0
+    Example from my demibot.ini file:
+    wikicx = 010309599473701667874:gmnbobftkp0
 
 
     From https://github.com/EArmour
@@ -13,26 +13,9 @@ import re
 import os
 
 
-def get_cx(site, configdir):
-    "Reads Google Search ID from a file."
-    cx_id = None
-    try:
-        authfile = os.path.join(configdir, "auth")
-        with open(authfile) as f:
-            authstr = f.read()
-    except IOError:
-        cx_id = None
-    else:
-        cx_id = re.search("(?<={}\s).*".format(site), authstr)
-        if cx_id:
-            cx_id = cx_id.group()
-
-    return cx_id
-
-
 def get_searchresult(site, bot, channel, args, nick):
     "The flesh of this module. Parse the search result and return title & link"
-    cx = get_cx(site, bot.factory.configdir)
+    cx = bot.factory.network[site]
 
     if not cx:
         return bot.say(channel, "Could not find a CX ID.")

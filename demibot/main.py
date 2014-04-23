@@ -68,7 +68,10 @@ def parse_config(configdir):
 
     # Correct a couple of values.
     for n in networks:
+        networks[n]["port"] = config.getint(n, "port")
         networks[n]["ssl"] = config.getboolean(n, "ssl")
+        networks[n]["urltitles_enabled"] = config.getboolean(n, "urltitles_enabled")
+        networks[n]["minperms"] = config.getint(n, "minperms")
         for k, v in networks[n].items():
             if k == "superadmins":
                 networks[n]["superadmins"] = set(v.replace(" ", "").split(","))
@@ -125,7 +128,7 @@ def main():
                 "ssl": args["--ssl"],
                 "nickname": args["--nick"],
                 "nickserv_pw": args["--pass"],
-                "superadmins": {args["--admin"]},
+                "superadmins": {args["--admin"]} or set(),
                 "admins": set(),
                 "channels": channels,
             }

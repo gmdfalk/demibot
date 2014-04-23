@@ -25,7 +25,7 @@ except ImportError as e:
 class Factory(protocol.ClientFactory):
     "Factory that creates a client and handles its connection."
 
-    VERSION = "0.2"  # current demibot version
+    VERSION = "0.3"  # current demibot version
     URL = "https://github.com/mikar/demibot"
     clients = {}
     basedir = os.path.dirname(os.path.realpath(__file__))
@@ -40,11 +40,11 @@ class Factory(protocol.ClientFactory):
         # not and or is not.
         self.logs_enabled = True ^ nologs
         self.retry_enabled = True  # Retry if connection lost/failed.
-        self.titles_enabled = False
         self.quiz_enabled = False
+        self.urltitles_enabled = network.get("urltitles_enabled", False)
         # Set minperms to disable access to commands for certain permission
         # levels. Anything above 0 will disable most public commands.
-        self.minperms = 1  # 20 is the maximum.
+        self.minperms = network.get("minperms", 0)  # 20 is the maximum.
         if self.minperms:
             log.info("Minperms are set! To enable public commands: .setmin 0")
         # Namespace for modules:

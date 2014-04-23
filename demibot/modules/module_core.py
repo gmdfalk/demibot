@@ -429,8 +429,8 @@ def command_setvar(bot, user, channel, args):
         f.retry_enabled = not f.retry_enabled
         return bot.say(channel, "retry_enabled: {}".format(f.retry_enabled))
     if args[0] == "titles" or args[0] == "url":
-        f.titles_enabled = not f.titles_enabled
-        return bot.say(channel, "titles_enabled: {}".format(f.titles_enabled))
+        f.urltitles_enabled = not f.urltitles_enabled
+        return bot.say(channel, "urltitles_enabled: {}".format(f.urltitles_enabled))
     elif args[0] == "minperms":
         f.minperms = int(args[1])
         return bot.say(channel, "minperms: {}".format(f.minperms))
@@ -459,9 +459,9 @@ def command_printvars(bot, user, channel, args):
 
     if not args:
         bot.say(channel, "logs_enabled: {}, retry_enabled: {},"\
-                " titles_enabled: {}, minperms: {}, lost_delay: {},"\
+                " urltitles_enabled: {}, minperms: {}, lost_delay: {},"\
                 " failed_delay: {}".format(f.logs_enabled, f.retry_enabled,
-                                           f.titles_enabled, f.minperms,
+                                           f.urltitles_enabled, f.minperms,
                                            f.lost_delay, f.failed_delay))
         bot.say(channel, "logdir: {}, configdir: {}, moduledir: {}"
                 .format(f.logdir, f.configdir, f.moduledir))
@@ -481,9 +481,9 @@ def command_printvars(bot, user, channel, args):
                        .format(f.logdir, f.configdir, f.moduledir))
     elif args == "factory":
         return bot.say(channel, "logs_enabled: {}, retry_enabled: {},"\
-                       " titles_enabled: {}, minperms: {}, lost_delay: {},"\
+                       " urltitles_enabled: {}, minperms: {}, lost_delay: {},"\
                        " failed_delay: {}".format(f.logs_enabled, f.retry_enabled,
-                                                  f.titles_enabled, f.minperms,
+                                                  f.urltitles_enabled, f.minperms,
                                                   f.lost_delay, f.failed_delay))
 
 
