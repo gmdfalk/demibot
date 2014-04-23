@@ -217,8 +217,8 @@ def command_setnick(bot, user, channel, args):
     if len(args) > 1:
         return
 
-    bot.factory.network["identity"]["nickname"] = args[0]
-    bot.nickname = bot.factory.network["identity"]["nickname"]
+    bot.factory.network["nickname"] = args[0]
+    bot.nickname = bot.factory.network["nickname"]
     bot.setNick(bot.nickname)
     log.info("Changed nickname to {}".format(args[0]))
 

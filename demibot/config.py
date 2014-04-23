@@ -54,7 +54,7 @@ def create_options(configdir):
             "password": auth.get("freenode"),
             "identity": identities["example"],
             "superadmins": {"nick1", "nick2"},
-            "admins":  {},
+            "admins":  set(),
             "channels": {"#channel1", "#channel2"},
         },
         "oftc": {
@@ -64,7 +64,7 @@ def create_options(configdir):
             "password": auth.get("oftc"),
             "identity": identities["example"],
             "superadmins": {"nick1", "nick2"},
-            "admins":  {},
+            "admins":  set(),
             "channels": {"#channel1", "#channel2"},
         },
     }

@@ -17,9 +17,9 @@ class Client(irc.IRCClient):
 
     def __init__(self, factory):
         self.factory = factory
-        self.nickname = self.factory.network["identity"]["nickname"]
-        self.realname = self.factory.network["identity"]["realname"]
-        self.username = self.factory.network["identity"]["username"]
+        self.nickname = self.factory.network["nickname"]
+        self.realname = self.factory.network["realname"]
+        self.username = self.factory.network["username"]
         self.sourceURL = self.factory.URL  # CTCP source queries to the github.
         self.lineRate = 1  # Print at most n lines per second.
         self.wrap = textwrap.TextWrapper(width=400, break_long_words=True)
@@ -127,9 +127,9 @@ class Client(irc.IRCClient):
 
         network = self.factory.network
 
-        if network["identity"]["nickserv_pw"]:
+        if network["nickserv_pw"]:
             self.msg("NickServ", "IDENTIFY {}"
-                     .format(network["identity"]["nickserv_pw"]))
+                     .format(network["nickserv_pw"]))
 
         for channel in network["channels"]:
             self.join(channel)
