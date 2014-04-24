@@ -5,6 +5,7 @@
 ##### What it currently provides:  
   * Logs both system messages and chat. URLs are logged to a separate file.
   * Modularity, borrowed from [**Pyfibot**](https://github.com/lepinkainen/pyfibot) (which also means their modules are mostly compatible with demibot, some of which are already included here).
+  * Configuration file.
   * Lots of commands:
     * Admin actions:
       * update: Pull the bot sources from the official github.
