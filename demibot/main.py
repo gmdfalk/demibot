@@ -33,7 +33,7 @@ Options:
     -v                  Logging verbosity, up to -vvv.
 """
 
-from ConfigParser import SafeConfigParser
+from ConfigParser import ConfigParser, NoOptionError
 import os
 import sys
 
@@ -60,7 +60,7 @@ def get_configdir():
 
 
 def parse_config(configdir):
-    config = SafeConfigParser()
+    config = ConfigParser()
     config.read(os.path.join(configdir, "demibot.ini"))
     networks = {}
     for s in config.sections():
@@ -68,13 +68,17 @@ def parse_config(configdir):
 
     # Correct a couple of values.
     for n in networks:
-        networks[n]["port"] = config.getint(n, "port")
-        networks[n]["ssl"] = config.getboolean(n, "ssl")
-        networks[n]["urltitles_enabled"] = config.getboolean(n, "urltitles_enabled")
-        networks[n]["minperms"] = config.getint(n, "minperms")
-        networks[n]["lost_delay"] = config.getint(n, "lost_delay")
-        networks[n]["failed_delay"] = config.getint(n, "failed_delay")
-        networks[n]["rejoin_delay"] = config.getint(n, "rejoin_delay")
+        networks[n]["port"] = int(config.get(n, "port", fallback=6667))
+        for i in ["urltitles_enabled", "ssl"]:
+            try:
+                networks[n][i] = config.getboolean(n, i)
+            except NoOptionError:
+                print "ConfigError: Could not parse option {}.".format(i)
+        for i in ["minperms", "lost_delay", "failed_delay", "rejoin_delay"]:
+            try:
+                networks[n][i] = config.getint(n, i)
+            except NoOptionError:
+                print "ConfigError: Could not parse option {}.".format(i)
         for k, v in networks[n].items():
             if k == "superadmins":
                 networks[n]["superadmins"] = set(v.replace(" ", "").split(","))
