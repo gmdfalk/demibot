@@ -45,10 +45,8 @@ from reporting import init_logger
 
 
 def get_configdir():
-    # If ~/.demibot or ~/.config/demibot exist, we use that as source and
-    # target for logs and config file.
+    "Determine the directory we read the configuration file from."
     configdir = os.path.dirname(os.path.realpath(__file__))  # We are here.
-#     if not args["<server>"] and not args["--logdir"]:
     home = os.path.join(os.path.expanduser("~"), ".demibot")
     homeconfig = os.path.join(os.path.expanduser("~"), ".config/demibot")
     if os.path.isdir(homeconfig):
@@ -68,7 +66,7 @@ def parse_config(configdir):
 
     # Correct a couple of values.
     for n in networks:
-        networks[n]["port"] = int(config.get(n, "port", fallback=6667))
+        networks[n]["port"] = int(config.get(n, "port", 6667))
         for i in ["urltitles_enabled", "ssl"]:
             try:
                 networks[n][i] = config.getboolean(n, i)
@@ -92,6 +90,7 @@ def parse_config(configdir):
 
 
 def main():
+    args = docopt(__doc__, version="0.3")
     configdir = get_configdir()
 
     if not args["--logdir"]:
@@ -163,5 +162,4 @@ def main():
     reactor.run()
 
 if __name__ == "__main__":
-    args = docopt(__doc__, version="0.3")
     main()
